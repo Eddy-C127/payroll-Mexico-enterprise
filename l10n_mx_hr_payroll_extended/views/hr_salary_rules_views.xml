@@ -1,0 +1,61 @@
+<odoo>
+    <record id="hr_salary_rule_form_inherit_payroll_mx_hide_rule" model="ir.ui.view">
+        <field name="name">hr.salary.rule.form.inherit_payroll_mx.hide_rule</field>
+        <field name="model">hr.salary.rule</field>
+        <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
+        <field name="arch" type="xml">
+            <field name="appears_on_payslip" position="after">
+                <field name="hide_rule"/>
+            </field>
+        </field>
+    </record>
+    <record id="hr_salary_rule_form_inherit_payroll_mx" model="ir.ui.view">
+        <field name="name">hr.salary.rule.form.inherit_payroll_mx</field>
+        <field name="model">hr.salary.rule</field>
+        <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='description']" position="after">
+                <page name="cfdi" string="CFDI">
+                    <group>
+                        <group string="Allowance / Deduction ( SAT )">
+                            <field invisible="1" name="category_code"/>
+                            <field name="allowance_type_l10n_mx"/>
+                            <field name="deduction_type_l10n_mx"/>
+                            <field name="otherpayment_type_l10n_mx"/>
+                        </group>
+                        <group string="Payment Method">
+                            <field name="payment_method_l10n_mx" options="{'horizontal': true}" widget="radio"/>
+                            <field invisible="payment_method_l10n_mx in ['001']" name="cuenta_especie"/>
+                            <field invisible="category_code not in ['AUX']" name="fondo_ahorro_aux"/>
+                        </group>
+                        <group string="ISR Exemption">
+                            <field name="exemption"/>
+                            <field invisible="exemption==False" name="exempt_part"/>
+                            <field invisible="exemption==False" name="taxable_part"/>
+                            <field invisible="exemption==False" name="integer_income"/>
+                        </group>
+                        <group string="IMSS Variable Perception">
+                            <field name="variable_imss"/>
+                            <field invisible="variable_imss==False" name="type_variable_imss"/>
+                            <field invisible="variable_imss==False" name="amount_variable_imss"/>
+                        </group>
+                        <group string="Others">
+                            <field name="integer_ptu"/>
+                            <field name="integer_state"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="hr_payslip_input_form_inherit_payroll_mx" model="ir.ui.view">
+        <field name="name">hr.payslip.input.form.inherit_payroll_mx</field>
+        <field name="model">hr.payslip.input.type</field>
+        <field name="inherit_id" ref="hr_payroll.hr_payslip_input_type_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='country_id']" position="after">
+                <field name="input_type_mx" options="{'horizontal': true}" widget="radio"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

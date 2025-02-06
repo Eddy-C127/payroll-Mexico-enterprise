@@ -1,0 +1,135 @@
+<odoo>
+    <record id="hr_payslip_form_inherit_payroll_mx" model="ir.ui.view">
+        <field name="name">hr.payslip.form.inherit_page_payroll_mx</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='account_info']" position="after">
+                <page id="edi_documents" string="Payslip Informations">
+                    <group id="edi_documents_group">
+                        <group string="Allowance Deductions">
+                            
+                            <group>
+                                <field name="allowance_total"/>
+                                <field name="deduction_total"/>
+                                <field name="payslip_date"/>
+                                <field name="other_payments"/>
+                            </group>
+                        </group>
+                        <group string="Allowance Total">
+                            <group>
+                                <field invisible="1" name="amount_subtotal"/>
+                                <field name="discount"/>
+                                <field name="retentions"/>
+                                <field name="amount_total"/>
+                            </group>
+                        </group>
+                    </group>
+                    <!-- <group><group string="CFDI information"><field name="l10n_mx_edi_cfdi_supplier_rfc" /><field name="l10n_mx_edi_cfdi_customer_rfc" /><field name="l10n_mx_edi_cfdi_amount" /></group></group>-->
+                    <!-- <field name="edi_document_ids" options="{'no_open': '1'}"><tree
+                            create="false"
+                            delete="false"
+                            edit="false"
+                            decoration-danger="error"
+                        ><field name="name" /><field name="edi_format_name" /><field name="state" /><field name="error" invisible="0" /><button
+                                name="action_export_xml"
+                                type="object"
+                                class="oe_link oe_inline"
+                                string="Download"
+                                groups="base.group_no_one"
+                                invisible="error==False"
+                            /></tree></field>-->
+                </page>
+            </xpath>
+            <field name="line_ids" position="replace">
+                <field colspan="4" name="line_ids" nolabel="1">
+                    <tree create="0" decoration-bf="rule_type in ('total')" decoration-info="rule_type in ('ded')" decoration-it="rule_type in ('alw')" decoration-muted="rule_type in ('company')" delete="0" editable="bottom">
+                        <field invisible="hide_rule==True" name="name"/>
+                        <field force_save="1" invisible="hide_rule==True" name="code" readonly="1"/>
+                        <field force_save="1" invisible="hide_rule==True" name="category_id" readonly="1"/>
+                        <field force_save="1" invisible="hide_rule==True" name="rule_type" readonly="0"/>
+                        <field invisible="1" name="hide_rule"/>
+                        <field force_save="1" invisible="hide_rule==True" name="sequence" readonly="1"/>
+                        <field force_save="1" invisible="hide_rule==True" name="quantity" readonly="1"/>
+                        <field force_save="1" invisible="hide_rule==True" name="rate" readonly="1"/>
+                        <field force_save="1" invisible="hide_rule==True" name="salary_rule_id" readonly="1"/>
+                        <field force_save="1" invisible="hide_rule==True" name="amount" readonly="1"/>
+                        <field force_save="1" invisible="hide_rule==True" name="total" readonly="1"/>
+                    </tree>
+                    <form string="Payslip Line">
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="category_id"/>
+                            <field name="sequence"/>
+                            <field name="hide_rule"/>
+                            <field name="quantity"/>
+                            <field name="rate"/>
+                            <field name="amount"/>
+                            <field name="total"/>
+                            <field name="salary_rule_id"/>
+                        </group>
+                    </form>
+                </field>
+            </field>
+        </field>
+    </record>
+    <record id="hr_payslip_add_buttons_inherit_payroll_mx" model="ir.ui.view">
+        <field name="name">hr.payslip.buttons.inherit_page_payroll_mx</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_payslip_cancel']" position="before">
+                <button class="oe_highlight" invisible="state!='done'" name="send_by_email" string="Send by email" type="object"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="hr_payslip_form_inherit_payroll_mx_1" model="ir.ui.view">
+        <field name="name">hr.payslip.form.inherit_page_payroll_mx_1</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <field name="contract_id" position="before">
+                <field name="payment_day"/>
+            </field>
+        </field>
+    </record>
+    <record id="hr_payslip_form_inherit_payroll_mx_2" model="ir.ui.view">
+        <field name="name">hr.payslip.form.inherit_page_payroll_mx_1</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <field name="is_superuser" position="after">
+                <field invisible="1" name="hide_rule" widget="boolean_toggle"/>
+            </field>
+        </field>
+    </record>
+    <record id="hr_payslip_form_inherit_payroll_mx_3" model="ir.ui.view">
+        <field name="name">hr.payslip.form.inherit_page_payroll_mx_3</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" help="Analyse Payslip" icon="fa-money" invisible="extratime_count==10" name="action_view_extratime" type="object">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="extratime_count"/>
+                        </span>
+                        <span class="o_stat_text">Analyse Payslip</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+    <record id="hr_payslip_tree_inherit_payroll_mx" model="ir.ui.view">
+        <field name="name">hr.payslip.tree.inherit_page_payroll_mx</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <field name="basic_wage" position="replace"/>
+            <field name="net_wage" position="replace"/>
+        </field>
+    </record>
+</odoo>
