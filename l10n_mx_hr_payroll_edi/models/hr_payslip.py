@@ -303,7 +303,6 @@ class HrPayslip(models.Model):
         )
 
         edi_document_vals_list = []
-
         for payslip in self:
             _logger.info("action_stamp_payroll_pac  --->>>   " + str(payslip.number))
             if payslip.l10n_mx_edi_state_pac == "no_signed":

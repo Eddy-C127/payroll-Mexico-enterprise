@@ -934,7 +934,7 @@ Content-Disposition: form-data; name="xml"; filename="xml"
             )
             if res.get("errors"):
                 # == Create the attachment failed ==
-                cfdi_filename = ("%s-failed-MX-payslip-1.2.xml" % (payslip.number)).replace(
+                cfdi_filename = ("%s-failed-1.2.xml" % (payslip.number)).replace(
                     "/", ""
                 )
                 cfdi_faile_attachment = self.env["ir.attachment"].create(
